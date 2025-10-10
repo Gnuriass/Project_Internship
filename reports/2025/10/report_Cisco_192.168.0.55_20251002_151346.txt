@@ -1,0 +1,274 @@
+Network Preventive Maintenance Report
+Brand: Cisco
+IP: 192.168.0.55
+Timestamp: 20251002_151346
+==================================================
+
+===== show running-config =====
+[
+    "Building configuration...",
+    "",
+    "Current configuration : 3411 bytes",
+    "!",
+    "version 12.2",
+    "no service pad",
+    "service timestamps debug datetime msec",
+    "service timestamps log datetime msec",
+    "no service password-encryption",
+    "!"
+]
+
+===== show version =====
+[
+    {
+        "software_image": "C2960-LANLITEK9-M",
+        "version": "12.2(55)SE7",
+        "release": "fc1",
+        "rommon": "Bootstrap",
+        "hostname": "Rung_Nigga",
+        "uptime": "1 day, 5 hours, 10 minutes",
+        "uptime_years": "",
+        "uptime_weeks": "",
+        "uptime_days": "1",
+        "uptime_hours": "5",
+        "uptime_minutes": "10",
+        "reload_reason": "power-on",
+        "running_image": "c2960-lanlitek9-mz.122-55.SE7.bin",
+        "hardware": [
+            "WS-C2960-24LC-S"
+        ],
+        "serial": [
+            "FCQ1616Y14D"
+        ],
+        "config_register": "0xF",
+        "mac_address": [
+            "A4:18:75:5D:6B:00"
+        ],
+        "restarted": ""
+    }
+]
+
+===== show ip interface brief =====
+[
+    {
+        "interface": "Vlan1",
+        "ip_address": "192.168.0.55",
+        "status": "up",
+        "proto": "up"
+    },
+    {
+        "interface": "FastEthernet0/1",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/2",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/3",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/4",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/5",
+        "ip_address": "unassigned",
+        "status": "up",
+        "proto": "up"
+    },
+    {
+        "interface": "FastEthernet0/6",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/7",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/8",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/9",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    }
+]
+
+===== show processes cpu =====
+[
+    {
+        "cpu_usage_5_sec": "15",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "5",
+        "process_pid": "1",
+        "process_runtime": "0",
+        "process_invoked": "3",
+        "process_cpu_time_for_invocation": "0",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.00",
+        "process_cpu_usage_5_min": "0.00",
+        "process_tty": "0",
+        "process_name": "Chunk Manager"
+    },
+    {
+        "cpu_usage_5_sec": "15",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "5",
+        "process_pid": "2",
+        "process_runtime": "0",
+        "process_invoked": "20964",
+        "process_cpu_time_for_invocation": "0",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.00",
+        "process_cpu_usage_5_min": "0.00",
+        "process_tty": "0",
+        "process_name": "Load Meter"
+    },
+    {
+        "cpu_usage_5_sec": "15",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "5",
+        "process_pid": "3",
+        "process_runtime": "0",
+        "process_invoked": "904",
+        "process_cpu_time_for_invocation": "0",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.00",
+        "process_cpu_usage_5_min": "0.00",
+        "process_tty": "0",
+        "process_name": "DHCPD Timer"
+    },
+    {
+        "cpu_usage_5_sec": "15",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "5",
+        "process_pid": "4",
+        "process_runtime": "628441",
+        "process_invoked": "33215",
+        "process_cpu_time_for_invocation": "18920",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.52",
+        "process_cpu_usage_5_min": "0.54",
+        "process_tty": "0",
+        "process_name": "Check heaps"
+    },
+    {
+        "cpu_usage_5_sec": "15",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "5",
+        "process_pid": "5",
+        "process_runtime": "8",
+        "process_invoked": "12",
+        "process_cpu_time_for_invocation": "666",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.00",
+        "process_cpu_usage_5_min": "0.00",
+        "process_tty": "0",
+        "process_name": "Pool Manager"
+    },
+    {
+        "cpu_usage_5_sec": "15",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "5",
+        "process_pid": "6",
+        "process_runtime": "0",
+        "process_invoked": "2",
+        "process_cpu_time_for_invocation": "0",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.00",
+        "process_cpu_usage_5_min": "0.00",
+        "process_tty": "0",
+        "process_name": "Timers"
+    },
+    {
+        "cpu_usage_5_sec": "15",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "5",
+        "process_pid": "7",
+        "process_runtime": "8",
+        "process_invoked": "157",
+        "process_cpu_time_for_invocation": "50",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.00",
+        "process_cpu_usage_5_min": "0.00",
+        "process_tty": "0",
+        "process_name": "Net Input"
+    },
+    {
+        "cpu_usage_5_sec": "15",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "5",
+        "process_pid": "8",
+        "process_runtime": "0",
+        "process_invoked": "1",
+        "process_cpu_time_for_invocation": "0",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.00",
+        "process_cpu_usage_5_min": "0.00",
+        "process_tty": "0",
+        "process_name": "Crash writer"
+    },
+    {
+        "cpu_usage_5_sec": "15",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "5",
+        "process_pid": "9",
+        "process_runtime": "52",
+        "process_invoked": "1904",
+        "process_cpu_time_for_invocation": "27",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.00",
+        "process_cpu_usage_5_min": "0.00",
+        "process_tty": "0",
+        "process_name": "ARP Input"
+    },
+    {
+        "cpu_usage_5_sec": "15",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "5",
+        "process_pid": "10",
+        "process_runtime": "0",
+        "process_invoked": "1",
+        "process_cpu_time_for_invocation": "0",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.00",
+        "process_cpu_usage_5_min": "0.00",
+        "process_tty": "0",
+        "process_name": "AAA_SERVER_DEADT"
+    }
+]
+
+===== show processes memory =====
+{'pool': [{'POOL_NAME': 'Processor', 'POOL_TOTAL': '30533128', 'POOL_USED': '10986968', 'POOL_FREE': '19546160'}, {'POOL_NAME': 'I/O', 'POOL_TOTAL': '4194304', 'POOL_USED': '1684100', 'POOL_FREE': '2510204'}, {'POOL_NAME': 'Driver te', 'POOL_TOTAL': '1048576', 'POOL_USED': '40', 'POOL_FREE': '1048536'}], 'process': [{'PROCESS_PID': '0', 'PROCESS_TTY': '0', 'PROCESS_Allocated': '14453740', 'PROCESS_Freed': '3450544', 'PROCESS_Holding': '8759248', 'PROCESS_Getbufs': '0', 'PROCESS_Retbufs': '0', 'PROCESS_Process': '*Init*'}, {'PROCESS_PID': '0', 'PROCESS_TTY': '0', 'PROCESS_Allocated': '13132', 'PROCESS_Freed': '1014000', 'PROCESS_Holding': '13132', 'PROCESS_Getbufs': '0', 'PROCESS_Retbufs': '0', 'PROCESS_Process': '*Sched*'}, {'PROCESS_PID': '0', 'PROCESS_TTY': '0', 'PROCESS_Allocated': '69996520', 'PROCESS_Freed': '68885584', 'PROCESS_Holding': '1185432', 'PROCESS_Getbufs': '1770244', 'PROCESS_Retbufs': '254736', 'PROCESS_Process': '*Dead*'}, {'PROCESS_PID': '1', 'PROCESS_TTY': '0', 'PROCESS_Allocated': '0', 'PROCESS_Freed': '0', 'PROCESS_Holding': '7052', 'PROCESS_Getbufs': '0', 'PROCESS_Retbufs': '0', 'PROCESS_Process': 'Chunk Manager'}, {'PROCESS_PID': '2', 'PROCESS_TTY': '0', 'PROCESS_Allocated': '180', 'PROCESS_Freed': '180', 'PROCESS_Holding': '4052', 'PROCESS_Getbufs': '0', 'PROCESS_Retbufs': '0', 'PROCESS_Process': 'Load Meter'}, {'PROCESS_PID': '3', 'PROCESS_TTY': '0', 'PROCESS_Allocated': '0', 'PROCESS_Freed': '0', 'PROCESS_Holding': '7092', 'PROCESS_Getbufs': '0', 'PROCESS_Retbufs': '0', 'PROCESS_Process': 'DHCPD Timer'}, {'PROCESS_PID': '4', 'PROCESS_TTY': '0', 'PROCESS_Allocated': '0', 'PROCESS_Freed': '0', 'PROCESS_Holding': '7104', 'PROCESS_Getbufs': '0', 'PROCESS_Retbufs': '0', 'PROCESS_Process': 'Check heaps'}, {'PROCESS_PID': '5', 'PROCESS_TTY': '0', 'PROCESS_Allocated': '247920', 'PROCESS_Freed': '368028', 'PROCESS_Holding': '31844', 'PROCESS_Getbufs': '228560', 'PROCESS_Retbufs': '285692', 'PROCESS_Process': 'Pool Manager'}, {'PROCESS_PID': '6', 'PROCESS_TTY': '0', 'PROCESS_Allocated': '180', 'PROCESS_Freed': '180', 'PROCESS_Holding': '7052', 'PROCESS_Getbufs': '0', 'PROCESS_Retbufs': '0', 'PROCESS_Process': 'Timers'}, {'PROCESS_PID': '7', 'PROCESS_TTY': '0', 'PROCESS_Allocated': '0', 'PROCESS_Freed': '0', 'PROCESS_Holding': '7052', 'PROCESS_Getbufs': '0', 'PROCESS_Retbufs': '0', 'PROCESS_Process': 'Net Input'}]}
+
+===== Port Summary =====
+Fiber Ports: Total=0, Up=0, Down=0
+UTP Ports: Total=10, Up=2, Down=8

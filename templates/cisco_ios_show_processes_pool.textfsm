@@ -1,0 +1,7 @@
+Value POOL_NAME (\S+(?:\s+\S+)*)
+Value POOL_TOTAL (\d+)
+Value POOL_USED (\d+)
+Value POOL_FREE (\d+)
+
+Start
+  ^\s*${POOL_NAME} +Pool Total:\s+${POOL_TOTAL} +Used:\s+${POOL_USED} +Free:\s+${POOL_FREE} -> Record
