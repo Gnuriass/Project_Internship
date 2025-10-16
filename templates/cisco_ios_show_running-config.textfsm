@@ -1,0 +1,25 @@
+Value HOSTNAME (\S+)
+Value DOMAIN (\S+)
+Value USERNAME (\S+)
+Value PRIVILEGE (\d+)
+Value PASSWORD (\S+)
+Value INTERFACE (\S+)
+Value IP_ADDRESS (\d+\.\d+\.\d+\.\d+)
+Value SUBNET_MASK (\d+\.\d+\.\d+\.\d+)
+Value GATEWAY (\d+\.\d+\.\d+\.\d+)
+Value SNMP_COMMUNITY (\S+)
+Value NTP_SERVER (\d{1,3}(?:\.\d{1,3}){3})
+
+Start
+  ^hostname\s+${HOSTNAME} -> Continue
+  ^ip\s+domain-name\s+${DOMAIN} -> Continue
+  ^username\s+${USERNAME}\s+privilege\s+${PRIVILEGE}\s+password\s+\d+\s+${PASSWORD} -> Continue
+  ^interface\s+${INTERFACE} -> Interface
+  ^ip\s+default-gateway\s+${GATEWAY} -> Continue
+  ^snmp-server\s+community\s+${SNMP_COMMUNITY}\s+RO -> Continue
+  ^ntp server ${NTP_SERVER} -> Record
+  ^end -> Record
+
+Interface
+  ^\s*ip\s+address\s+${IP_ADDRESS}\s+${SUBNET_MASK} -> Continue
+  ^! -> Start

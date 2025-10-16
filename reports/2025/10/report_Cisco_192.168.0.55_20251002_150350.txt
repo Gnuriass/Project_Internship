@@ -1,0 +1,145 @@
+Network Preventive Maintenance Report
+Brand: Cisco
+IP: 192.168.0.55
+Timestamp: 20251002_150350
+==================================================
+
+===== show running-config =====
+[
+    "Building configuration...",
+    "",
+    "Current configuration : 3411 bytes",
+    "!",
+    "version 12.2",
+    "no service pad",
+    "service timestamps debug datetime msec",
+    "service timestamps log datetime msec",
+    "no service password-encryption",
+    "!"
+]
+
+===== show version =====
+[
+    {
+        "software_image": "C2960-LANLITEK9-M",
+        "version": "12.2(55)SE7",
+        "release": "fc1",
+        "rommon": "Bootstrap",
+        "hostname": "Rung_Nigga",
+        "uptime": "1 day, 5 hours, 0 minutes",
+        "uptime_years": "",
+        "uptime_weeks": "",
+        "uptime_days": "1",
+        "uptime_hours": "5",
+        "uptime_minutes": "0",
+        "reload_reason": "power-on",
+        "running_image": "c2960-lanlitek9-mz.122-55.SE7.bin",
+        "hardware": [
+            "WS-C2960-24LC-S"
+        ],
+        "serial": [
+            "FCQ1616Y14D"
+        ],
+        "config_register": "0xF",
+        "mac_address": [
+            "A4:18:75:5D:6B:00"
+        ],
+        "restarted": ""
+    }
+]
+
+===== show ip interface brief =====
+[
+    {
+        "interface": "Vlan1",
+        "ip_address": "192.168.0.55",
+        "status": "up",
+        "proto": "up"
+    },
+    {
+        "interface": "FastEthernet0/1",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/2",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/3",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/4",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/5",
+        "ip_address": "unassigned",
+        "status": "up",
+        "proto": "up"
+    },
+    {
+        "interface": "FastEthernet0/6",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/7",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/8",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/9",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    }
+]
+
+===== show processes cpu =====
+[
+    "CPU utilization for five seconds: 19%/0%; one minute: 7%; five minutes: 5%",
+    " PID Runtime(ms)   Invoked      uSecs   5Sec   1Min   5Min TTY Process ",
+    "   1           0         3          0  0.00%  0.00%  0.00%   0 Chunk Manager    ",
+    "   2           0     20845          0  0.00%  0.00%  0.00%   0 Load Meter       ",
+    "   3           0       898          0  0.00%  0.00%  0.00%   0 DHCPD Timer      ",
+    "   4      624854     33026      18920  0.00%  0.52%  0.55%   0 Check heaps      ",
+    "   5           8        12        666  0.00%  0.00%  0.00%   0 Pool Manager     ",
+    "   6           0         2          0  0.00%  0.00%  0.00%   0 Timers           ",
+    "   7           8       155         51  0.00%  0.00%  0.00%   0 Net Input        ",
+    "   8           0         1          0  0.00%  0.00%  0.00%   0 Crash writer     "
+]
+
+===== show processes memory =====
+[
+    "Processor Pool Total:   30533128 Used:   10986100 Free:   19547028",
+    "      I/O Pool Total:    4194304 Used:    1684100 Free:    2510204",
+    "Driver te Pool Total:    1048576 Used:         40 Free:    1048536",
+    "",
+    " PID TTY  Allocated      Freed    Holding    Getbufs    Retbufs Process",
+    "   0   0   14453740    3450544    8759248          0          0 *Init*          ",
+    "   0   0      12976     911296      12976          0          0 *Sched*         ",
+    "   0   0   67997448   66889608    1185176    1770244     254736 *Dead*          ",
+    "   1   0          0          0       7052          0          0 Chunk Manager   ",
+    "   2   0        180        180       4052          0          0 Load Meter      "
+]
+
+===== Port Summary =====
+Fiber Ports: Total=0, Up=0, Down=0
+UTP Ports: Total=10, Up=2, Down=8

@@ -1,0 +1,33 @@
+Network Preventive Maintenance Report
+Brand: Cisco
+Management IP: 192.168.0.55
+Timestamp: 20251007_155307
+================================================================================
+
+===== Program: Summary All =====
+Device Summary:
+{
+    "Comware Software, Version": "",
+    "Bootrom Version": "",
+    "Sync Time with NTP Server": "",
+    "CPU Usage": "",
+    "Memory Usage": "",
+    "Temperature": "",
+    "Uptime": ""
+}
+
+{
+    "Fiber": {
+        "total": 2,
+        "up": 0,
+        "down": 2
+    },
+    "UTP": {
+        "total": 25,
+        "up": 2,
+        "down": 23
+    }
+}
+
+================================================================================
+

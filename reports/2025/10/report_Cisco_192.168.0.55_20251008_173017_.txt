@@ -1,0 +1,699 @@
+Network Preventive Maintenance Report
+Brand: Cisco
+Management IP: 192.168.0.55
+Timestamp: 20251008_173017
+================================================================================
+
+===== Program: Backup Configuration =====
+
+------ show running-config ------
+Building configuration...
+
+Current configuration : 3411 bytes
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Rung_Nigga
+!
+boot-start-marker
+boot-end-marker
+!
+!
+username admin privilege 15 secret 5 $1$1LLq$fZM6B6uO2zgR397dH1zI..
+username admin-Ppond privilege 15 password 0 admin
+!
+!
+no aaa new-model
+system mtu routing 1500
+!
+!
+ip domain-name bokbok.1
+cluster enable no 0
+!
+!
+crypto pki trustpoint TP-self-signed-1969056512
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1969056512
+ revocation-check none
+ rsakeypair TP-self-signed-1969056512
+!
+!
+crypto pki certificate chain TP-self-signed-1969056512
+ certificate self-signed 01
+  3082024B 308201B4 A0030201 02020101 300D0609 2A864886 F70D0101 04050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31393639 30353635 3132301E 170D3933 30333031 30303030 
+  35375A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 39363930 
+  35363531 3230819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100EBDE 99E3CCB7 6982B9BC C85BFE84 6C93F5D9 28253CDE 3EF518FC B908CE82 
+  8D31CC6A 2AEC85A9 1C7BD6F4 7CD06116 58E3EA20 DB38ABA2 33C724F6 29CEA0BD 
+  988DE786 256425CB DB7FD5B0 D970DD75 91AAE382 65D7F47E 810E72C2 59048B5B 
+  FAC0DF18 C9E8998E 9D17A75E E0FCD061 6D42B109 3A76950A F305C156 F82920E7 
+  890F0203 010001A3 73307130 0F060355 1D130101 FF040530 030101FF 301E0603 
+  551D1104 17301582 1352756E 675F4E69 6767612E 626F6B62 6F6B2E31 301F0603 
+  551D2304 18301680 14BCB6A3 9FED1101 ADED649B B4CABCBA E307558F 9E301D06 
+  03551D0E 04160414 BCB6A39F ED1101AD ED649BB4 CABCBAE3 07558F9E 300D0609 
+  2A864886 F70D0101 04050003 818100B7 AD5F66EE 4964193C 3F69A95C 30ADF292 
+  EC5206F2 A3B767EC F8BBE10C 37CD35FE C1B056B2 758841CD ABC0158E DBAF602C 
+  4B43D940 152A5CEE A7266775 F084948E 2CD98C60 D125200C B73F226D EA7F43E3 
+  BDB8C037 DF3455F0 79760993 7F8AF40D DAD5C1C1 7029D963 46FBA3C5 56398DF6 
+  4CF25865 ACB08DC8 F993E0A5 F1FE9C
+  quit
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+interface FastEthernet0/1
+!
+interface FastEthernet0/2
+!
+interface FastEthernet0/3
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+ switchport trunk allowed vlan 1
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+ switchport trunk allowed vlan 1
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+!
+interface FastEthernet0/24
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ ip address 192.168.0.55 255.255.255.0
+ no ip route-cache
+!
+ip default-gateway 192.168.0.1
+ip http server
+ip http secure-server
+!
+snmp-server community no RO
+snmp-server community nan RO
+banner motd ^CC*** Unauthorized access prohibited ***^C
+!
+line con 0
+line vty 0 4
+ password bokbok
+ login local
+ transport input ssh
+line vty 5 15
+ password bokbok
+ login
+!
+ntp server 118.175.67.83
+end
+
+
+------ show ip interface brief ------
+[
+    {
+        "interface": "Vlan1",
+        "ip_address": "192.168.0.55",
+        "status": "up",
+        "proto": "up"
+    },
+    {
+        "interface": "FastEthernet0/1",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/2",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/3",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/4",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/5",
+        "ip_address": "unassigned",
+        "status": "up",
+        "proto": "up"
+    },
+    {
+        "interface": "FastEthernet0/6",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/7",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/8",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/9",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/10",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/11",
+        "ip_address": "unassigned",
+        "status": "up",
+        "proto": "up"
+    },
+    {
+        "interface": "FastEthernet0/12",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/13",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/14",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/15",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/16",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/17",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/18",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/19",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/20",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/21",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/22",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/23",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "FastEthernet0/24",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "GigabitEthernet0/1",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    },
+    {
+        "interface": "GigabitEthernet0/2",
+        "ip_address": "unassigned",
+        "status": "down",
+        "proto": "down"
+    }
+]
+
+------ show version ------
+[
+    {
+        "software_image": "C2960-LANLITEK9-M",
+        "version": "12.2(55)SE7",
+        "release": "fc1",
+        "bootloader": "C2960 Boot Loader (C2960-HBOOT-M) Version 12.2(50r)SE1, RELEASE SOFTWARE (fc1)",
+        "rommon": "Bootstrap program is C2960 boot loader",
+        "hostname": "Rung_Nigga",
+        "uptime": "7 hours, 1 minute",
+        "uptime_years": "",
+        "uptime_weeks": "",
+        "uptime_days": "",
+        "uptime_hours": "7",
+        "uptime_minutes": "1",
+        "reload_reason": "power-on",
+        "running_image": "c2960-lanlitek9-mz.122-55.SE7.bin",
+        "hardware": [
+            "WS-C2960-24LC-S"
+        ],
+        "serial": [
+            "FCQ1616Y14D"
+        ],
+        "config_register": "0xF",
+        "mac_address": [
+            "A4:18:75:5D:6B:00"
+        ],
+        "restarted": ""
+    }
+]
+
+------ show lldp neighbors detail ------
+% LLDP is not enabled
+
+------ show processes cpu ------
+[
+    {
+        "cpu_usage_5_sec": "4",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "6",
+        "process_pid": "1",
+        "process_runtime": "0",
+        "process_invoked": "5",
+        "process_cpu_time_for_invocation": "0",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.00",
+        "process_cpu_usage_5_min": "0.00",
+        "process_tty": "0",
+        "process_name": "Chunk Manager"
+    },
+    {
+        "cpu_usage_5_sec": "4",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "6",
+        "process_pid": "2",
+        "process_runtime": "0",
+        "process_invoked": "5043",
+        "process_cpu_time_for_invocation": "0",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.00",
+        "process_cpu_usage_5_min": "0.00",
+        "process_tty": "0",
+        "process_name": "Load Meter"
+    },
+    {
+        "cpu_usage_5_sec": "4",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "6",
+        "process_pid": "3",
+        "process_runtime": "0",
+        "process_invoked": "218",
+        "process_cpu_time_for_invocation": "0",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.00",
+        "process_cpu_usage_5_min": "0.00",
+        "process_tty": "0",
+        "process_name": "DHCPD Timer"
+    },
+    {
+        "cpu_usage_5_sec": "4",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "6",
+        "process_pid": "4",
+        "process_runtime": "150947",
+        "process_invoked": "7985",
+        "process_cpu_time_for_invocation": "18903",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.48",
+        "process_cpu_usage_5_min": "0.53",
+        "process_tty": "0",
+        "process_name": "Check heaps"
+    },
+    {
+        "cpu_usage_5_sec": "4",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "6",
+        "process_pid": "5",
+        "process_runtime": "9",
+        "process_invoked": "5",
+        "process_cpu_time_for_invocation": "1800",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.00",
+        "process_cpu_usage_5_min": "0.00",
+        "process_tty": "0",
+        "process_name": "Pool Manager"
+    },
+    {
+        "cpu_usage_5_sec": "4",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "6",
+        "process_pid": "6",
+        "process_runtime": "0",
+        "process_invoked": "2",
+        "process_cpu_time_for_invocation": "0",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.00",
+        "process_cpu_usage_5_min": "0.00",
+        "process_tty": "0",
+        "process_name": "Timers"
+    },
+    {
+        "cpu_usage_5_sec": "4",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "6",
+        "process_pid": "7",
+        "process_runtime": "0",
+        "process_invoked": "73",
+        "process_cpu_time_for_invocation": "0",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.00",
+        "process_cpu_usage_5_min": "0.00",
+        "process_tty": "0",
+        "process_name": "Net Input"
+    },
+    {
+        "cpu_usage_5_sec": "4",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "6",
+        "process_pid": "8",
+        "process_runtime": "0",
+        "process_invoked": "1",
+        "process_cpu_time_for_invocation": "0",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.00",
+        "process_cpu_usage_5_min": "0.00",
+        "process_tty": "0",
+        "process_name": "Crash writer"
+    },
+    {
+        "cpu_usage_5_sec": "4",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "6",
+        "process_pid": "9",
+        "process_runtime": "58",
+        "process_invoked": "492",
+        "process_cpu_time_for_invocation": "117",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.00",
+        "process_cpu_usage_5_min": "0.00",
+        "process_tty": "0",
+        "process_name": "ARP Input"
+    },
+    {
+        "cpu_usage_5_sec": "4",
+        "cpu_interruption_5_sec": "0",
+        "cpu_usage_1_min": "7",
+        "cpu_usage_5_min": "6",
+        "process_pid": "10",
+        "process_runtime": "0",
+        "process_invoked": "1",
+        "process_cpu_time_for_invocation": "0",
+        "process_cpu_usage_5_sec": "0.00",
+        "process_cpu_usage_1_min": "0.00",
+        "process_cpu_usage_5_min": "0.00",
+        "process_tty": "0",
+        "process_name": "AAA_SERVER_DEADT"
+    }
+]
+
+------ show processes memory ------
+{
+    "pool": [
+        {
+            "POOL_NAME": "Processor",
+            "POOL_TOTAL": "30533128",
+            "POOL_USED": "10989412",
+            "POOL_FREE": "19543716"
+        },
+        {
+            "POOL_NAME": "I/O",
+            "POOL_TOTAL": "4194304",
+            "POOL_USED": "1684100",
+            "POOL_FREE": "2510204"
+        },
+        {
+            "POOL_NAME": "Driver te",
+            "POOL_TOTAL": "1048576",
+            "POOL_USED": "40",
+            "POOL_FREE": "1048536"
+        }
+    ],
+    "process": [
+        {
+            "PROCESS_PID": "0",
+            "PROCESS_TTY": "0",
+            "PROCESS_ALLOCATED": "",
+            "PROCESS_FREED": "",
+            "PROCESS_HOLDING": "",
+            "PROCESS_GETBUFS": "",
+            "PROCESS_RETBUFS": "",
+            "PROCESS_NAME": ""
+        },
+        {
+            "PROCESS_PID": "0",
+            "PROCESS_TTY": "0",
+            "PROCESS_ALLOCATED": "",
+            "PROCESS_FREED": "",
+            "PROCESS_HOLDING": "",
+            "PROCESS_GETBUFS": "",
+            "PROCESS_RETBUFS": "",
+            "PROCESS_NAME": ""
+        },
+        {
+            "PROCESS_PID": "0",
+            "PROCESS_TTY": "0",
+            "PROCESS_ALLOCATED": "",
+            "PROCESS_FREED": "",
+            "PROCESS_HOLDING": "",
+            "PROCESS_GETBUFS": "",
+            "PROCESS_RETBUFS": "",
+            "PROCESS_NAME": ""
+        },
+        {
+            "PROCESS_PID": "1",
+            "PROCESS_TTY": "0",
+            "PROCESS_ALLOCATED": "",
+            "PROCESS_FREED": "",
+            "PROCESS_HOLDING": "",
+            "PROCESS_GETBUFS": "",
+            "PROCESS_RETBUFS": "",
+            "PROCESS_NAME": ""
+        },
+        {
+            "PROCESS_PID": "2",
+            "PROCESS_TTY": "0",
+            "PROCESS_ALLOCATED": "",
+            "PROCESS_FREED": "",
+            "PROCESS_HOLDING": "",
+            "PROCESS_GETBUFS": "",
+            "PROCESS_RETBUFS": "",
+            "PROCESS_NAME": ""
+        },
+        {
+            "PROCESS_PID": "3",
+            "PROCESS_TTY": "0",
+            "PROCESS_ALLOCATED": "",
+            "PROCESS_FREED": "",
+            "PROCESS_HOLDING": "",
+            "PROCESS_GETBUFS": "",
+            "PROCESS_RETBUFS": "",
+            "PROCESS_NAME": ""
+        },
+        {
+            "PROCESS_PID": "4",
+            "PROCESS_TTY": "0",
+            "PROCESS_ALLOCATED": "",
+            "PROCESS_FREED": "",
+            "PROCESS_HOLDING": "",
+            "PROCESS_GETBUFS": "",
+            "PROCESS_RETBUFS": "",
+            "PROCESS_NAME": ""
+        },
+        {
+            "PROCESS_PID": "5",
+            "PROCESS_TTY": "0",
+            "PROCESS_ALLOCATED": "",
+            "PROCESS_FREED": "",
+            "PROCESS_HOLDING": "",
+            "PROCESS_GETBUFS": "",
+            "PROCESS_RETBUFS": "",
+            "PROCESS_NAME": ""
+        },
+        {
+            "PROCESS_PID": "6",
+            "PROCESS_TTY": "0",
+            "PROCESS_ALLOCATED": "",
+            "PROCESS_FREED": "",
+            "PROCESS_HOLDING": "",
+            "PROCESS_GETBUFS": "",
+            "PROCESS_RETBUFS": "",
+            "PROCESS_NAME": ""
+        },
+        {
+            "PROCESS_PID": "7",
+            "PROCESS_TTY": "0",
+            "PROCESS_ALLOCATED": "",
+            "PROCESS_FREED": "",
+            "PROCESS_HOLDING": "",
+            "PROCESS_GETBUFS": "",
+            "PROCESS_RETBUFS": "",
+            "PROCESS_NAME": ""
+        }
+    ]
+}
+
+------ show env power ------
+POWER is OK
+
+------ show interfaces transceiver ------
+
+
+------ show interfaces transceiver detail ------
+
+
+------ show etherchannel summary ------
+Flags:  D - down        P - bundled in port-channel
+        I - stand-alone s - suspended
+        H - Hot-standby (LACP only)
+        R - Layer3      S - Layer2
+        U - in use      f - failed to allocate aggregator
+
+        M - not in use, minimum links not met
+        u - unsuitable for bundling
+        w - waiting to be aggregated
+        d - default port
+
+
+Number of channel-groups in use: 0
+Number of aggregators:           0
+
+Group  Port-channel  Protocol    Ports
+------+-------------+-----------+-----------------------------------------------
+
+
+------ show etherchannel port-channel ------
+		Channel-group listing: 
+		----------------------
+
+
+
+===== Program: Summary All =====
+{
+    "device_summary": {
+        "Comware Software, Version": "",
+        "Bootrom Version": "",
+        "Sync Time with NTP Server": "",
+        "CPU Usage": "",
+        "Memory Usage": "",
+        "Temperature": "",
+        "Uptime": ""
+    },
+    "port_summary": {
+        "Fiber": {
+            "total": 2,
+            "up": 0,
+            "down": 2
+        },
+        "UTP": {
+            "total": 25,
+            "up": 3,
+            "down": 22
+        }
+    }
+}
+
+================================================================================
+
+=== Summary of Executed Programs (This Device) ===
+Cisco 192.168.0.55 → Backup Configuration, Summary All
+================================================================================
