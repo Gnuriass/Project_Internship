@@ -1,15 +1,9 @@
 import os
 import json
-import pandas as pd
+import streamlit as st
 from datetime import datetime
-from dash import Dash, html, dcc, Input, Output, dash_table
-import dash_bootstrap_components as dbc
 
-# ==== CONFIG ====
 REPORT_ROOT = "reports"
-app = Dash(__name__, external_stylesheets=[dbc.themes.SANDSTONE])
-app.title = "Network Maintenance Dashboard"
-
 
 def list_reports():
     """ดึงรายชื่อไฟล์ report ทั้งหมด"""
@@ -57,60 +51,42 @@ def parse_report(file_path):
     }
 
 
-# ==== Layout ====
-app.layout = dbc.Container([
-    dbc.Row([
-        html.H2("Network Preventive Maintenance Dashboard", className="text-center mt-3 mb-4")
-    ]),
-    dbc.Row([
-        dbc.Col([
-            html.Label("📁 Select Report File:"),
-            dcc.Dropdown(
-                id="report-dropdown",
-                options=[{"label": f["filename"], "value": f["path"]} for f in list_reports()],
-                placeholder="เลือกไฟล์รายงาน...",
-                value=None,
-                clearable=False
-            ),
-            html.Div(id="report-info", className="mt-3")
-        ], width=4),
-        dbc.Col([
-            html.H4("📊 Device Summary", className="mt-2"),
-            dash_table.DataTable(
-                id="device-summary-table",
-                columns=[{"name": "Field", "id": "Field"}, {"name": "Value", "id": "Value"}],
-                data=[],
-                style_table={"overflowX": "auto"},
-                style_cell={"textAlign": "left"},
-                style_header={"backgroundColor": "#007BFF", "color": "white"}
-            ),
-            html.Br(),
-            html.H4("🔌 Port Summary"),
-            dcc.Graph(id="port-summary-graph")
-        ], width=8)
-    ]),
-], fluid=True)
+# ==============================
+# Streamlit App
+# ==============================
+st.set_page_config(page_title="Network Maintenance Dashboard", layout="wide")
 
+st.title("🌐 Network Preventive Maintenance Dashboard")
 
-# ==== Callbacks ====
-@app.callback(
-    [Output("report-info", "children"),
-     Output("device-summary-table", "data"),
-     Output("port-summary-graph", "figure")],
-    [Input("report-dropdown", "value")]
+# เลือกไฟล์รายงาน
+reports = list_reports()
+if not reports:
+    st.warning("❌ No report files found in the 'reports/' folder.")
+    st.stop()
+
+report_file = st.selectbox(
+    "📄 Select a report file:",
+    options=[f["path"] for f in reports],
+    format_func=lambda x: os.path.basename(x)
 )
-def update_dashboard(report_path):
-    if not report_path:
-        return "No file selected.", [], {}
 
-    info = f"📄 Loaded file: {os.path.basename(report_path)}"
-    data = parse_report(report_path)
+if report_file:
+    st.info(f"📂 Loaded file: {os.path.basename(report_file)}")
+    data = parse_report(report_file)
 
-    # Device summary table
-    summary_data = [{"Field": k, "Value": v} for k, v in data.items() if k not in ("brand", "ip", "Fiber", "UTP")]
+    # ==============================
+    # Device Summary
+    # ==============================
+    st.subheader("📊 Device Summary")
+    summary_data = {k: v for k, v in data.items() if k not in ("brand", "ip", "Fiber", "UTP")}
+    st.table(summary_data)
 
-    # Port summary chart
+    # ==============================
+    # Port Summary
+    # ==============================
+    st.subheader("🔌 Port Summary")
     import plotly.graph_objects as go
+
     fiber = data.get("Fiber", {"up": 0, "down": 0, "total": 0})
     utp = data.get("UTP", {"up": 0, "down": 0, "total": 0})
 
@@ -118,10 +94,16 @@ def update_dashboard(report_path):
         go.Bar(name="UP", x=["Fiber", "UTP"], y=[fiber["up"], utp["up"]]),
         go.Bar(name="DOWN", x=["Fiber", "UTP"], y=[fiber["down"], utp["down"]])
     ])
-    fig.update_layout(barmode="stack", title="Port Status Summary")
+    fig.update_layout(
+        barmode="stack",
+        title="Port Status Summary",
+        xaxis_title="Port Type",
+        yaxis_title="Number of Ports"
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
-    return info, summary_data, fig
-
-
-if __name__ == "__main__":
-    app.run_server(debug=True, port=8050)
+    # ==============================
+    # Raw JSON Output (Optional)
+    # ==============================
+    with st.expander("Show Raw JSON Data"):
+        st.json(data)
