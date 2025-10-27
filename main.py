@@ -6,16 +6,19 @@ import os
 import json
 import textfsm
 import re
+import sys
 
-# ... (ส่วนของ TEMPLATE_PATH และ dataset ไม่มีการเปลี่ยนแปลง) ...
-TEMPLATE_PATH_POOL = os.path.join(
-    os.getcwd(), "templates", "cisco_ios_show_processes_pool.textfsm")
-TEMPLATE_PATH_PROCESSES = os.path.join(
-    os.getcwd(), "templates", "cisco_ios_show_processes_process.textfsm")
-TEMPLATE_PATH_RUNNING = os.path.join(
-    os.getcwd(), "templates", "cisco_ios_show_running-config.textfsm")
+# กำหนด Path สำหรับไฟล์ Streamlit
+APP_DIR = os.path.dirname(__file__)
 
-dataset = pd.read_excel("dataset.xlsx")
+if getattr(sys, 'frozen', False):
+    # PyInstaller creates a temp folder and stores the path in _MEIPASS
+    APP_DIR = sys._MEIPASS
+
+    
+TEMPLATE_PATH_POOL = os.path.join(APP_DIR, "templates", "cisco_ios_show_processes_pool.textfsm")
+TEMPLATE_PATH_PROCESSES = os.path.join(APP_DIR, "templates", "cisco_ios_show_processes_process.textfsm")
+TEMPLATE_PATH_RUNNING = os.path.join(APP_DIR, "templates", "cisco_ios_show_running-config.textfsm")
 
 brand_commands = {
     "Cisco": [
@@ -27,9 +30,7 @@ brand_commands = {
         "show processes memory",
         "show env all",
         "show interfaces transceiver",
-        "show interfaces transceiver detail",
-        "show etherchannel summary",
-        "show etherchannel port-channel",
+        "show interfaces transceiver detail"
     ],
     "HPE": [
         "display current-configuration",
@@ -89,6 +90,9 @@ def reorder_dict(d, key_order):
 
 
 def parse_custom_template(command, output):
+    """
+    Custom parsing for commands not fully supported by NTC templates
+    """
     try:
         output_str = "\n".join(output) if isinstance(
             output, list) else str(output)
@@ -109,8 +113,13 @@ def parse_custom_template(command, output):
                 if process_section:
                     process_lines.append(line)
                 else:
+                    # Skip header lines in pool section
+                    if "Total" in line and "Used" in line:
+                        continue
                     pool_lines.append(line)
 
+            # Ensure template paths are correctly referenced using APP_DIR
+            
             with open(TEMPLATE_PATH_POOL) as f:
                 fsm = textfsm.TextFSM(f)
                 parsed = fsm.ParseText("\n".join(pool_lines))
@@ -161,11 +170,15 @@ def parse_custom_template(command, output):
         return results if results else output_str.splitlines()[:50]
 
     except Exception as e:
-        print(f"❌ TextFSM parse error for {command}: {e}")
+        # พิมพ์ข้อผิดพลาดเพื่อให้ตรวจสอบ TextFSM ได้
+        print(f"❌ TextFSM parse error for {command}: {e} (Path: {TEMPLATE_PATH_POOL})")
         return output_str.splitlines()[:50]
 
 
 def parse_with_ntc(brand, command, output):
+    """
+    Parses command output using NTC templates or custom parser.
+    """
     try:
         if isinstance(output, list):
             output = "\n".join(output)
@@ -183,16 +196,19 @@ def parse_with_ntc(brand, command, output):
 
         if isinstance(parsed, list):
             if command in ["show processes cpu", "show processes memory"]:
+                # ใช้แค่ 15 บรรทัดแรก
                 parsed = parsed[:15]
 
         return parsed if parsed else output
 
     except Exception:
+        # NTC template parse failed, return raw output
         return output if isinstance(output, str) else "\n".join(output)
 
 
 def get_switch_info(ip, brand, username, password):
     """Connects and runs all commands, returning PARSED output."""
+    # ... (โค้ดการเชื่อมต่อและส่ง command เหมือนเดิม) ...
     device_types = {"Cisco": "cisco_ios",
                     "HPE": "hp_procurve", "H3C": "h3c_comware"}
     if brand not in device_types:
@@ -244,6 +260,7 @@ def get_switch_info(ip, brand, username, password):
 
 def get_all_raw_outputs(ip, brand, username, password):
     """Connects and runs all commands for a brand, returning RAW TEXT output."""
+    # ... (โค้ดการเชื่อมต่อและส่ง command เหมือนเดิม) ...
     device_types = {"Cisco": "cisco_ios",
                     "HPE": "hp_procurve", "H3C": "h3c_comware"}
     if brand not in device_types:
@@ -303,6 +320,7 @@ def is_fiber_port(iface):
 
 
 def summarize_ports(brand, interface_output):
+    # ... (ฟังก์ชันเหมือนเดิม) ...
     summary = {
         "Fiber": {"total": 0, "up": 0, "down": 0},
         "UTP": {"total": 0, "up": 0, "down": 0},
@@ -345,6 +363,7 @@ def summarize_ports(brand, interface_output):
 
 
 def summarize_device_status(results, brand):
+    # ... (ฟังก์ชันเหมือนเดิม) ...
     summary = {
         "version": "", "bootloader": "", "uptime": "", "NTP_SERVER": "",
         "CPU Usage": "", "Memory Usage": "", "Temperature": "",
@@ -438,6 +457,7 @@ def summarize_device_status(results, brand):
 
 
 def save_selected_results_txt(all_results, save_root="reports"):
+    # ... (ฟังก์ชันเหมือนเดิม) ...
     if not all_results:
         print("\nNo results to save!")
         return
@@ -475,9 +495,9 @@ def save_selected_results_txt(all_results, save_root="reports"):
                         f.write("\n\n")
                 elif program_name == "Summary All":
                     f.write(json.dumps(summary_data,
-                            indent=4, ensure_ascii=False))
+                                       indent=4, ensure_ascii=False))
                     f.write("\n\n")
-            f.write("=" * 80 + "\n")
+                f.write("=" * 80 + "\n")
             f.write("=== Summary of Executed Programs (This Device) ===\n")
             f.write(f"{brand} {ip} → {', '.join(executed_programs)}\n")
             f.write("=" * 80 + "\n")
@@ -485,6 +505,14 @@ def save_selected_results_txt(all_results, save_root="reports"):
 
 
 def interactive_main():
+    # ... (ฟังก์ชันเหมือนเดิม) ...
+    # ⚠️ Warning: This function is for CLI mode only and will not be used by Streamlit.
+    try:
+        dataset = pd.read_excel("dataset.xlsx")
+    except FileNotFoundError:
+        print("❌ dataset.xlsx not found!")
+        return # หยุดถ้าหาไฟล์ไม่เจอในโหมด CLI
+
     all_results = []
     first_run = True
     while True:
