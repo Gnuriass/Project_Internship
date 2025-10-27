@@ -8,9 +8,12 @@ import textfsm
 import re
 
 # ... (ส่วนของ TEMPLATE_PATH และ dataset ไม่มีการเปลี่ยนแปลง) ...
-TEMPLATE_PATH_POOL = os.path.join(os.getcwd(), "templates", "cisco_ios_show_processes_pool.textfsm")
-TEMPLATE_PATH_PROCESSES = os.path.join(os.getcwd(), "templates", "cisco_ios_show_processes_process.textfsm")
-TEMPLATE_PATH_RUNNING = os.path.join(os.getcwd(), "templates", "cisco_ios_show_running-config.textfsm")
+TEMPLATE_PATH_POOL = os.path.join(
+    os.getcwd(), "templates", "cisco_ios_show_processes_pool.textfsm")
+TEMPLATE_PATH_PROCESSES = os.path.join(
+    os.getcwd(), "templates", "cisco_ios_show_processes_process.textfsm")
+TEMPLATE_PATH_RUNNING = os.path.join(
+    os.getcwd(), "templates", "cisco_ios_show_running-config.textfsm")
 
 dataset = pd.read_excel("dataset.xlsx")
 
@@ -87,7 +90,8 @@ def reorder_dict(d, key_order):
 
 def parse_custom_template(command, output):
     try:
-        output_str = "\n".join(output) if isinstance(output, list) else str(output)
+        output_str = "\n".join(output) if isinstance(
+            output, list) else str(output)
         results = {}
 
         if "show processes memory" in command:
@@ -119,7 +123,8 @@ def parse_custom_template(command, output):
                 fsm = textfsm.TextFSM(f)
                 parsed = fsm.ParseText("\n".join(process_lines))
                 results["process"] = [
-                    reorder_dict(dict(zip(fsm.header, row)), PROCESS_KEYS_ORDER)
+                    reorder_dict(dict(zip(fsm.header, row)),
+                                 PROCESS_KEYS_ORDER)
                     for row in parsed[:15]
                 ]
 
@@ -139,23 +144,25 @@ def parse_custom_template(command, output):
                                 if isinstance(results["NTP_SERVER"], list):
                                     results["NTP_SERVER"].append(v)
                                 else:
-                                    results["NTP_SERVER"] = [results["NTP_SERVER"], v]
+                                    results["NTP_SERVER"] = [
+                                        results["NTP_SERVER"], v]
                             else:
                                 results["NTP_SERVER"] = v
                         else:
                             results[k] = v
 
         if "NTP_SERVER" not in results:
-            ntp_fallback = re.findall(r"ntp\s+server\s+(\d{1,3}(?:\.\d{1,3}){3})", output_str, re.I)
+            ntp_fallback = re.findall(
+                r"ntp\s+server\s+(\d{1,3}(?:\.\d{1,3}){3})", output_str, re.I)
             if ntp_fallback:
-                results["NTP_SERVER"] = ntp_fallback if len(ntp_fallback) > 1 else ntp_fallback[0]
+                results["NTP_SERVER"] = ntp_fallback if len(
+                    ntp_fallback) > 1 else ntp_fallback[0]
 
         return results if results else output_str.splitlines()[:50]
 
     except Exception as e:
         print(f"❌ TextFSM parse error for {command}: {e}")
         return output_str.splitlines()[:50]
-
 
 
 def parse_with_ntc(brand, command, output):
@@ -167,10 +174,12 @@ def parse_with_ntc(brand, command, output):
             if command in ["show processes memory", "show running-config"]:
                 return parse_custom_template(command, output)
             else:
-                parsed = parse_output(platform="cisco_ios", command=command, data=output)
+                parsed = parse_output(
+                    platform="cisco_ios", command=command, data=output)
         else:
             device_types = {"HPE": "hp_procurve", "H3C": "h3c_comware"}
-            parsed = parse_output(platform=device_types[brand], command=command, data=output)
+            parsed = parse_output(
+                platform=device_types[brand], command=command, data=output)
 
         if isinstance(parsed, list):
             if command in ["show processes cpu", "show processes memory"]:
@@ -184,7 +193,8 @@ def parse_with_ntc(brand, command, output):
 
 def get_switch_info(ip, brand, username, password):
     """Connects and runs all commands, returning PARSED output."""
-    device_types = {"Cisco": "cisco_ios", "HPE": "hp_procurve", "H3C": "h3c_comware"}
+    device_types = {"Cisco": "cisco_ios",
+                    "HPE": "hp_procurve", "H3C": "h3c_comware"}
     if brand not in device_types:
         raise ValueError(f"❌ Brand {brand} not supported")
 
@@ -196,7 +206,7 @@ def get_switch_info(ip, brand, username, password):
         "secret": password,
         "fast_cli": True,
     }
-    
+
     connection = None
     try:
         connection = ConnectHandler(**device)
@@ -206,23 +216,26 @@ def get_switch_info(ip, brand, username, password):
             connection.send_command("terminal length 0", read_timeout=5)
         elif brand in ["HPE", "H3C"]:
             connection.send_command("screen-length disable", read_timeout=5)
-        
+
         print(f"✅ Successfully connected to {brand} {ip}\n")
 
         results = {}
         for cmd in brand_commands[brand]:
             try:
                 if "processes cpu" in cmd.lower():
-                    output = connection.send_command_timing(cmd, delay_factor=2, max_loops=1000)
+                    output = connection.send_command_timing(
+                        cmd, delay_factor=2, max_loops=1000)
                 else:
-                    output = connection.send_command(cmd, read_timeout=60, delay_factor=1.0, expect_string=r"[#>]")
+                    output = connection.send_command(
+                        cmd, read_timeout=60, delay_factor=1.0, expect_string=r"[#>]")
 
-                output_str = "\n".join(output) if isinstance(output, list) else output
+                output_str = "\n".join(output) if isinstance(
+                    output, list) else output
                 results[cmd] = parse_with_ntc(brand, cmd, output_str)
 
             except Exception as e:
                 results[cmd] = f"❌ Error running command {cmd}: {e}"
-        
+
         return results
     finally:
         if connection:
@@ -231,7 +244,8 @@ def get_switch_info(ip, brand, username, password):
 
 def get_all_raw_outputs(ip, brand, username, password):
     """Connects and runs all commands for a brand, returning RAW TEXT output."""
-    device_types = {"Cisco": "cisco_ios", "HPE": "hp_procurve", "H3C": "h3c_comware"}
+    device_types = {"Cisco": "cisco_ios",
+                    "HPE": "hp_procurve", "H3C": "h3c_comware"}
     if brand not in device_types:
         raise ValueError(f"❌ Brand {brand} not supported")
 
@@ -243,7 +257,7 @@ def get_all_raw_outputs(ip, brand, username, password):
         "secret": password,
         "fast_cli": True,
     }
-    
+
     connection = None
     try:
         connection = ConnectHandler(**device)
@@ -253,22 +267,26 @@ def get_all_raw_outputs(ip, brand, username, password):
             connection.send_command("terminal length 0", read_timeout=5)
         elif brand in ["HPE", "H3C"]:
             connection.send_command("screen-length disable", read_timeout=5)
-        
-        print(f"✅ Successfully connected to {brand} {ip} for raw command output\n")
+
+        print(
+            f"✅ Successfully connected to {brand} {ip} for raw command output\n")
 
         results = {}
         for cmd in brand_commands[brand]:
             try:
                 if "processes cpu" in cmd.lower():
-                    output = connection.send_command_timing(cmd, delay_factor=2, max_loops=1000)
+                    output = connection.send_command_timing(
+                        cmd, delay_factor=2, max_loops=1000)
                 else:
-                    output = connection.send_command(cmd, read_timeout=60, expect_string=r"[#>]")
-                
-                results[cmd] = output if isinstance(output, str) else str(output)
+                    output = connection.send_command(
+                        cmd, read_timeout=60, expect_string=r"[#>]")
+
+                results[cmd] = output if isinstance(
+                    output, str) else str(output)
 
             except Exception as e:
                 results[cmd] = f"❌ Error running command {cmd}: {e}"
-        
+
         return results
     finally:
         if connection:
@@ -289,14 +307,17 @@ def summarize_ports(brand, interface_output):
         "Fiber": {"total": 0, "up": 0, "down": 0},
         "UTP": {"total": 0, "up": 0, "down": 0},
     }
-    lines = interface_output if isinstance(interface_output, list) else interface_output.splitlines()
+    lines = interface_output if isinstance(
+        interface_output, list) else interface_output.splitlines()
     for row in lines:
         iface, status, protocol = "", "down", "down"
         if isinstance(row, dict):
-            iface = (row.get("intf") or row.get("interface") or row.get("port") or row.get("name") or "").strip()
+            iface = (row.get("intf") or row.get("interface")
+                     or row.get("port") or row.get("name") or "").strip()
             status = (row.get("status") or "").lower()
             protocol = (row.get("protocol") or row.get("proto") or "").lower()
-            is_up = (status == "up" and protocol == "up") if brand == "Cisco" else (status == "up")
+            is_up = (status == "up" and protocol ==
+                     "up") if brand == "Cisco" else (status == "up")
         else:
             line = str(row).strip()
             if not line or line.lower().startswith(("interface", "port", "---")):
@@ -309,7 +330,8 @@ def summarize_ports(brand, interface_output):
                 status, protocol = parts[-1].lower(), ""
             else:
                 continue
-            is_up = (status == "up" and protocol == "up") if brand == "Cisco" else (status == "up")
+            is_up = (status == "up" and protocol ==
+                     "up") if brand == "Cisco" else (status == "up")
         if not iface:
             continue
         iface_lower = iface.lower()
@@ -328,7 +350,8 @@ def summarize_device_status(results, brand):
         "CPU Usage": "", "Memory Usage": "", "Temperature": "",
     }
     try:
-        version_cmd = "display version" if brand in ["HPE", "H3C"] else "show version"
+        version_cmd = "display version" if brand in [
+            "HPE", "H3C"] else "show version"
         version_output = results.get(version_cmd, "")
         if isinstance(version_output, list) and len(version_output) > 0:
             ver = version_output[0]
@@ -336,61 +359,79 @@ def summarize_device_status(results, brand):
         elif isinstance(version_output, dict):
             summary.update(version_output)
         elif isinstance(version_output, str):
-            ver_match = re.search(r"[Vv]ersion\s+([\w\.\(\)]+)", version_output)
-            if ver_match: summary["version"] = ver_match.group(1)
-            boot_match = re.search(r"(Boot\s*Loader|BOOTLDR).*?Version.*", version_output)
-            if boot_match: summary["bootloader"] = boot_match.group(0).strip()
+            ver_match = re.search(
+                r"[Vv]ersion\s+([\w\.\(\)]+)", version_output)
+            if ver_match:
+                summary["version"] = ver_match.group(1)
+            boot_match = re.search(
+                r"(Boot\s*Loader|BOOTLDR).*?Version.*", version_output)
+            if boot_match:
+                summary["bootloader"] = boot_match.group(0).strip()
             uptime_match = re.search(r"[Uu]ptime\s+is\s+(.+)", version_output)
-            if uptime_match: summary["uptime"] = uptime_match.group(1).strip()
+            if uptime_match:
+                summary["uptime"] = uptime_match.group(1).strip()
 
-        config_cmd = "display current-configuration" if brand in ["HPE", "H3C"] else "show running-config"
+        config_cmd = "display current-configuration" if brand in [
+            "HPE", "H3C"] else "show running-config"
         config_output = results.get(config_cmd, "")
         ntp_servers = []
         if isinstance(config_output, dict):
             val = config_output.get("NTP_SERVER", "")
-            if val: ntp_servers.extend(val) if isinstance(val, list) else ntp_servers.append(val)
+            if val:
+                ntp_servers.extend(val) if isinstance(
+                    val, list) else ntp_servers.append(val)
         config_output_str = str(config_output)
         if not ntp_servers:
-            ntp_servers += re.findall(r"ntp\s+server\s+(\d{1,3}(?:\.\d{1,3}){3})", config_output_str, re.I)
+            ntp_servers += re.findall(
+                r"ntp\s+server\s+(\d{1,3}(?:\.\d{1,3}){3})", config_output_str, re.I)
         summary["NTP_SERVER"] = ",".join(ntp_servers) if ntp_servers else ""
 
         # --- โค้ดที่แก้ไขแล้ว ---
         # show processes cpu
-        cpu_cmd = "display cpu-usage" if brand in ["HPE", "H3C"] else "show processes cpu"
+        cpu_cmd = "display cpu-usage" if brand in [
+            "HPE", "H3C"] else "show processes cpu"
         cpu_output = results.get(cpu_cmd, "")
 
         cpu_val = ""
         if isinstance(cpu_output, list) and len(cpu_output) > 0:
             # ตรวจสอบ key ที่เป็นไปได้หลายชื่อ
             cpu_info = cpu_output[0]
-            cpu_val = cpu_info.get("cpu_5_sec") or cpu_info.get("five_sec_cpu") or cpu_info.get("cpu_usage_5_sec")
-            
+            cpu_val = cpu_info.get("cpu_5_sec") or cpu_info.get(
+                "five_sec_cpu") or cpu_info.get("cpu_usage_5_sec")
+
         if cpu_val:
             summary["CPU Usage"] = f"{cpu_val}%"
         # หากยังหาไม่เจอในข้อมูลที่ Parse แล้ว ให้ลองหาจากข้อความดิบ (กรณี Parse ล้มเหลว)
         elif isinstance(cpu_output, str):
             # ปรับปรุง regex ให้รองรับ H3C และ Cisco
-            cpu_match = re.search(r"five\s+seconds.*?(\d+)%|CPU Usage.*?(\d+)%", cpu_output, re.I)
+            cpu_match = re.search(
+                r"five\s+seconds.*?(\d+)%|CPU Usage.*?(\d+)%", cpu_output, re.I)
             if cpu_match:
                 # group(1) สำหรับ Cisco, group(2) สำหรับ H3C
                 usage = cpu_match.group(1) or cpu_match.group(2)
                 summary["CPU Usage"] = f"{usage}%"
 
-        mem_cmd = "display memory" if brand in ["HPE", "H3C"] else "show processes memory"
+        mem_cmd = "display memory" if brand in [
+            "HPE", "H3C"] else "show processes memory"
         mem_output = results.get(mem_cmd, "")
         if isinstance(mem_output, dict) and "pool" in mem_output:
             for pool in mem_output["pool"]:
                 if pool.get("POOL_NAME", "").lower() == "processor":
                     try:
-                        used, total = int(pool.get("POOL_USED", 0)), int(pool.get("POOL_TOTAL", 1))
+                        used, total = int(pool.get("POOL_USED", 0)), int(
+                            pool.get("POOL_TOTAL", 1))
                         summary["Memory Usage"] = f"{round((used / total) * 100, 2)}%"
-                    except (ValueError, ZeroDivisionError): pass
-        
-        env_cmd = "display environment" if brand in ["HPE", "H3C"] else "show env all"
+                    except (ValueError, ZeroDivisionError):
+                        pass
+
+        env_cmd = "display environment" if brand in [
+            "HPE", "H3C"] else "show env all"
         env_output = results.get(env_cmd, "")
         if isinstance(env_output, str):
-            env_lines = [key for key in ["FAN is OK", "TEMPERATURE is OK", "POWER is OK"] if key in env_output]
-            summary["Temperature"] = ",".join(env_lines) if env_lines else "No status found"
+            env_lines = [key for key in [
+                "FAN is OK", "TEMPERATURE is OK", "POWER is OK"] if key in env_output]
+            summary["Temperature"] = ",".join(
+                env_lines) if env_lines else "No status found"
     except Exception as e:
         print(f"⚠️ summarize_device_status error: {e}")
     return summary
@@ -410,7 +451,8 @@ def save_selected_results_txt(all_results, save_root="reports"):
         key = (item["ip"], item["brand"])
         grouped_results.setdefault(key, []).append(item)
     for (ip, brand), device_results in grouped_results.items():
-        filename = os.path.join(save_dir, f"report_{brand}_{ip}_{timestamp}.txt")
+        filename = os.path.join(
+            save_dir, f"report_{brand}_{ip}_{timestamp}.txt")
         with open(filename, "w", encoding="utf-8") as f:
             f.write("Network Preventive Maintenance Report\n")
             f.write(f"Brand: {brand}\n")
@@ -426,12 +468,14 @@ def save_selected_results_txt(all_results, save_root="reports"):
                     for cmd, output in summary_data.items():
                         f.write(f"------ {cmd} ------\n")
                         if isinstance(output, (dict, list)):
-                            f.write(json.dumps(output, indent=4, ensure_ascii=False))
+                            f.write(json.dumps(
+                                output, indent=4, ensure_ascii=False))
                         else:
                             f.write(str(output))
                         f.write("\n\n")
                 elif program_name == "Summary All":
-                    f.write(json.dumps(summary_data, indent=4, ensure_ascii=False))
+                    f.write(json.dumps(summary_data,
+                            indent=4, ensure_ascii=False))
                     f.write("\n\n")
             f.write("=" * 80 + "\n")
             f.write("=== Summary of Executed Programs (This Device) ===\n")
@@ -479,9 +523,10 @@ def interactive_main():
                     print("\n❌ Invalid number. Please choose again.")
             except ValueError:
                 print("\n❌ Invalid input. Please enter a number.")
-        
+
         print(f"\n=== Available IPs for {brand} ===")
-        brand_ips = dataset[dataset["Brand"] == brand]["IP"].dropna().astype(str).tolist()
+        brand_ips = dataset[dataset["Brand"] ==
+                            brand]["IP"].dropna().astype(str).tolist()
         for i, ip in enumerate(brand_ips, start=1):
             print(f"{i}. {ip}")
         while True:
@@ -494,17 +539,20 @@ def interactive_main():
                     print("\n❌ Invalid number. Please choose again.")
             except ValueError:
                 print("\n❌ Invalid input. Please enter a number.")
-        
-        row = dataset[(dataset["Brand"] == brand) & (dataset["IP"] == ip)].iloc[0]
+
+        row = dataset[(dataset["Brand"] == brand) &
+                      (dataset["IP"] == ip)].iloc[0]
         username, password = row["Username"], row["Password"]
         try:
             # 1. Backup Configuration
             if choice == "1":
                 program_name = "Backup Configuration"
                 print("=" * 80 + "")
-                print(f"Connecting to {brand} ({ip}) for raw command backup...")
-                raw_results = get_all_raw_outputs(ip, brand, username, password)
-                
+                print(
+                    f"Connecting to {brand} ({ip}) for raw command backup...")
+                raw_results = get_all_raw_outputs(
+                    ip, brand, username, password)
+
                 # --- CHANGE HERE: Truncate specific commands for raw output ---
                 for cmd, output in raw_results.items():
                     if "show processes cpu" in cmd or "show processes memory" in cmd:
@@ -516,8 +564,9 @@ def interactive_main():
                     print(f"------ {cmd} ------")
                     print(output)
                     print()
-                
-                all_results.append({"ip": ip, "brand": brand, "program": program_name, "summary": raw_results})
+
+                all_results.append(
+                    {"ip": ip, "brand": brand, "program": program_name, "summary": raw_results})
 
             # 2. Backup All Commands (Parsed)
             elif choice == "2":
@@ -525,7 +574,7 @@ def interactive_main():
                 print("=" * 80 + "")
                 print(f"Connecting to {brand} ({ip}) for parsed backup...")
                 results = get_switch_info(ip, brand, username, password)
-                
+
                 print(f"===== Program: {program_name} =====")
                 for cmd, output in results.items():
                     print(f"------ {cmd} ------")
@@ -534,8 +583,9 @@ def interactive_main():
                     else:
                         print(output)
                     print()
-                
-                all_results.append({"ip": ip, "brand": brand, "program": program_name, "summary": results})
+
+                all_results.append(
+                    {"ip": ip, "brand": brand, "program": program_name, "summary": results})
 
             # 3. Summary All
             elif choice == "3":
@@ -543,18 +593,20 @@ def interactive_main():
                 print("=" * 80 + "")
                 print(f"Connecting to {brand} ({ip}) for summary...")
                 results = get_switch_info(ip, brand, username, password)
-                
+
                 print(f"===== Program: {program_name} =====")
                 device_summary = summarize_device_status(results, brand)
                 print("Device Summary:")
                 print(json.dumps(device_summary, indent=4, ensure_ascii=False))
 
                 iface_cmd = "show ip interface brief" if brand == "Cisco" else "display ip interface brief"
-                port_summary = summarize_ports(brand, results.get(iface_cmd, ""))
+                port_summary = summarize_ports(
+                    brand, results.get(iface_cmd, ""))
                 print("\nPort Summary:")
                 print(json.dumps(port_summary, indent=4, ensure_ascii=False))
 
-                all_results.append({"ip": ip, "brand": brand, "program": program_name, "summary": {"device_summary": device_summary, "port_summary": port_summary}})
+                all_results.append({"ip": ip, "brand": brand, "program": program_name, "summary": {
+                                   "device_summary": device_summary, "port_summary": port_summary}})
 
         except Exception as e:
             print(f"❌ An error occurred during operation for {ip}: {e}")
