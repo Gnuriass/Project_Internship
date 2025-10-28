@@ -1,9 +1,9 @@
 # -*- mode: python ; coding: utf-8 -*-
 from PyInstaller.utils.hooks import collect_all
 
-datas = [('app.py', '.'), ('main.py', '.'), ('dataset.xlsx', '.'), ('templates', 'templates')]
+datas = [('app.py', '.'), ('main.py', '.'), ('dataset.xlsx', '.'), ('templates', 'templates'), ('style.css', '.')]
 binaries = []
-hiddenimports = ['pkg_resources.py2_warn']
+hiddenimports = []
 tmp_ret = collect_all('streamlit')
 datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
 tmp_ret = collect_all('netmiko')

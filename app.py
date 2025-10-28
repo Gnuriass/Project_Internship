@@ -62,15 +62,17 @@ if dataset is not None:
     brand = st.selectbox("Select Device Brand", brands)
 
     if brand:
-        ips = dataset[dataset["Brand"] == brand]["IP"].dropna().astype(str).tolist()
+        ips = dataset[dataset["Brand"] ==
+                      brand]["IP"].dropna().astype(str).tolist()
         ip = st.selectbox(f"Select IP for {brand}", ips)
 
         if ip:
-            row = dataset[(dataset["Brand"] == brand) & (dataset["IP"] == ip)].iloc[0]
+            row = dataset[(dataset["Brand"] == brand) &
+                          (dataset["IP"] == ip)].iloc[0]
             username, password = row["Username"], row["Password"]
 
             st.markdown("---")
-            st.subheader("Select Action")
+            st.subheader("🕹️Select Action")
 
             action = st.radio(
                 "Choose a program to run:",
@@ -78,7 +80,7 @@ if dataset is not None:
                     "Backup Configuration (Raw)",
                     "Backup Configuration (Parsed)",
                     "Summary All",
-                    "Save All",  # ✅ เพิ่มอันนี้
+                    "Save All",  
                 ],
                 horizontal=True,
             )
@@ -110,8 +112,10 @@ if dataset is not None:
                                         output.splitlines()[:15]
                                     )
 
-                            st.success("✅ Backup (Raw) completed successfully!")
+                            st.success(
+                                "✅ Backup (Raw) completed successfully!")
                             if action != "Save All":
+                                st.subheader("📋 Backup Configuration (Raw)")
                                 st.json(raw_results)
 
                             all_results.append(
@@ -125,14 +129,17 @@ if dataset is not None:
 
                     # ===== 2. Backup Parsed =====
                     if action in ["Backup Configuration (Parsed)", "Save All"]:
-                        st.info(f"Connecting to {brand} ({ip}) for parsed backup...")
+                        st.info(
+                            f"Connecting to {brand} ({ip}) for parsed backup...")
                         with st.spinner("Running commands..."):
                             parsed_results = get_switch_info(
                                 ip, brand, username, password
                             )
 
-                            st.success("✅ Backup (Parsed) completed successfully!")
+                            st.success(
+                                "✅ Backup (Parsed) completed successfully!")
                             if action != "Save All":
+                                st.subheader("📋 Backup Configuration (Parsed)")
                                 st.json(parsed_results)
 
                             all_results.append(
@@ -148,8 +155,10 @@ if dataset is not None:
                     if action in ["Summary All", "Save All"]:
                         st.info(f"Connecting to {brand} ({ip}) for summary...")
                         with st.spinner("Collecting data..."):
-                            results = get_switch_info(ip, brand, username, password)
-                            device_summary = summarize_device_status(results, brand)
+                            results = get_switch_info(
+                                ip, brand, username, password)
+                            device_summary = summarize_device_status(
+                                results, brand)
                             iface_cmd = (
                                 "show ip interface brief"
                                 if brand == "Cisco"
@@ -178,35 +187,42 @@ if dataset is not None:
                                 }
                             )
 
-                    # ===== รวมผลลัพธ์และสร้างไฟล์ดาวน์โหลด =====
+                    # ===== รวมผลลัพธ์และสร้างไฟล์ดาวน์โหลด + แสดงผล =====
                     if all_results:
                         buffer = StringIO()
                         now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
                         buffer.write("NETWORK PREVENTIVE MAINTENANCE REPORT\n")
-                        buffer.write(f"Brand: {brand}\nIP: {ip}\nTimestamp: {now}\n")
+                        buffer.write(
+                            f"Brand: {brand}\nIP: {ip}\nTimestamp: {now}\n")
                         buffer.write("=" * 80 + "\n\n")
 
                         for item in all_results:
                             buffer.write(f"--- {item['program']} ---\n\n")
                             summary_data = item["summary"]
 
-                            # ✅ ปรับให้จัดรูปแบบสวยงาม
+                            # ✅ แสดงผลลัพธ์บนหน้าจอทุกโปรแกรม (เฉพาะ Save All)
+                            if action == "Save All":
+                                st.markdown(f"### 🧩 {item['program']}")
+                                if item["program"] == "Summary All":
+                                    st.subheader("📋 Device Summary")
+                                    st.json(summary_data["device_summary"])
+                                    st.subheader("🔌 Port Summary")
+                                    st.json(summary_data["port_summary"])
+                                else:
+                                    st.json(summary_data)
+
+                            # ✅ เขียนลง buffer เพื่อสร้างไฟล์
                             if isinstance(summary_data, dict):
-                                # กรณี Raw / Parsed
-                                if all(
-                                    isinstance(v, str) for v in summary_data.values()
-                                ):
+                                if all(isinstance(v, str) for v in summary_data.values()):
                                     for cmd, output in summary_data.items():
                                         buffer.write("-" * 60 + "\n")
                                         buffer.write(f"> {cmd}\n\n")
                                         buffer.write(output.strip() + "\n\n")
                                 else:
-                                    # กรณี Summary All (dict ซ้อน dict)
                                     buffer.write(
                                         json.dumps(
-                                            summary_data, indent=4, ensure_ascii=False
-                                        )
+                                            summary_data, indent=4, ensure_ascii=False)
                                     )
                             else:
                                 buffer.write(str(summary_data))
@@ -223,6 +239,7 @@ if dataset is not None:
                             .replace(")", "")
                             .lower()
                         )
+
                         st.download_button(
                             label="📥 Download Report (.txt)",
                             data=report_text.encode("utf-8"),
@@ -230,7 +247,6 @@ if dataset is not None:
                             mime="text/plain",
                         )
 
-                        # ให้ Streamlit โหลดซ้ำหลังจากดาวน์โหลดเสร็จ
                         if st.button("🔄 Do Another Task"):
                             st.experimental_rerun()
 
@@ -243,4 +259,5 @@ else:
     st.stop()
 
 st.markdown("---")
-st.caption("Developed by Sarochinee Bunyarit • Streamlit version of main.py CLI tool 🚀")
+st.caption(
+    "Developed by Sarochinee Bunyarit • Streamlit version of main.py CLI tool 🚀")
