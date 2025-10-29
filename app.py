@@ -5,7 +5,6 @@ import datetime
 import os
 from io import StringIO
 
-# นำเข้าฟังก์ชันจาก main.py ที่ถูกแก้ไขแล้ว
 from main import (
     get_all_raw_outputs,
     get_switch_info,
@@ -18,17 +17,14 @@ st.set_page_config(page_title="Network Maintenance Tool", layout="wide")
 st.title("🌐 Network Preventive Maintenance Dashboard")
 st.write("Perform backup your device and summarize the configuration.")
 
-# ----------------- การตรวจสอบไฟล์ -----------------
 APP_DIR = os.path.dirname(__file__)
 DATASET_PATH = os.path.join(APP_DIR, "dataset.xlsx")
 TEMPLATES_DIR = os.path.join(APP_DIR, "templates")
 
 missing_files = []
-# 1. ตรวจสอบ Dataset
 if not os.path.exists(DATASET_PATH):
     missing_files.append("dataset.xlsx")
 
-# 2. ตรวจสอบโฟลเดอร์และไฟล์เทมเพลตที่สำคัญ
 template_files = [
     "cisco_ios_show_processes_pool.textfsm",
     "cisco_ios_show_processes_process.textfsm",
@@ -38,7 +34,6 @@ for t_file in template_files:
     if not os.path.exists(os.path.join(TEMPLATES_DIR, t_file)):
         missing_files.append(f"templates/{t_file}")
 
-# ----------------- โหลด Dataset -----------------
 dataset = None
 if missing_files:
     st.error(
@@ -87,12 +82,12 @@ if dataset is not None:
 
             all_results = []
 
-            # Run button
+
             if st.button("🚀 Run Program"):
 
-                # --- ใช้ try/except เพื่อให้ Streamlit แสดงข้อผิดพลาดที่หน้าจอ ---
+
                 try:
-                    # ===== 1. Backup Raw =====
+
                     if action in ["Backup Configuration (Raw)", "Save All"]:
                         st.info(
                             f"Connecting to {brand} ({ip}) for raw command backup..."
@@ -102,7 +97,7 @@ if dataset is not None:
                                 ip, brand, username, password
                             )
 
-                            # จำกัดบรรทัดในบาง command
+
                             for cmd, output in raw_results.items():
                                 if (
                                     "show processes cpu" in cmd
@@ -127,7 +122,7 @@ if dataset is not None:
                                 }
                             )
 
-                    # ===== 2. Backup Parsed =====
+
                     if action in ["Backup Configuration (Parsed)", "Save All"]:
                         st.info(
                             f"Connecting to {brand} ({ip}) for parsed backup...")
@@ -151,7 +146,7 @@ if dataset is not None:
                                 }
                             )
 
-                    # ===== 3. Summary All =====
+
                     if action in ["Summary All", "Save All"]:
                         st.info(f"Connecting to {brand} ({ip}) for summary...")
                         with st.spinner("Collecting data..."):
@@ -187,7 +182,6 @@ if dataset is not None:
                                 }
                             )
 
-                    # ===== รวมผลลัพธ์และสร้างไฟล์ดาวน์โหลด + แสดงผล =====
                     if all_results:
                         buffer = StringIO()
                         now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -201,7 +195,6 @@ if dataset is not None:
                             buffer.write(f"--- {item['program']} ---\n\n")
                             summary_data = item["summary"]
 
-                            # ✅ แสดงผลลัพธ์บนหน้าจอทุกโปรแกรม (เฉพาะ Save All)
                             if action == "Save All":
                                 st.markdown(f"### 🧩 {item['program']}")
                                 if item["program"] == "Summary All":
@@ -212,7 +205,6 @@ if dataset is not None:
                                 else:
                                     st.json(summary_data)
 
-                            # ✅ เขียนลง buffer เพื่อสร้างไฟล์
                             if isinstance(summary_data, dict):
                                 if all(isinstance(v, str) for v in summary_data.values()):
                                     for cmd, output in summary_data.items():
