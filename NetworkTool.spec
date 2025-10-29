@@ -1,7 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 from PyInstaller.utils.hooks import collect_all
 
-datas = [('app.py', '.'), ('main.py', '.'), ('dataset.xlsx', '.'), ('templates', 'templates'), ('style.css', '.')]
+datas = [('app.py', '.'), ('main.py', '.'), ('dataset.xlsx', '.'), ('templates', 'templates')]
 binaries = []
 hiddenimports = []
 tmp_ret = collect_all('streamlit')
