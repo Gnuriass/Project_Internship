@@ -205,12 +205,23 @@ if not dataset.empty:
                     else:
                         st.json(summary_data)
 
-            st.download_button(
-                label="📥 Download Report (.txt)",
-                data=buffer.getvalue().encode("utf-8"),
-                file_name=f"report_{brand}_{ip}.txt",
-                mime="text/plain",
-            )
+                        # === download + run again buttons ===
+
+                st.download_button(
+                    label="📥 Download Report (.txt)",
+                    data=buffer.getvalue().encode("utf-8"),
+                    file_name=f"report_{brand}_{ip}.txt",
+                    mime="text/plain",
+                )
+
+                if st.button("🔄 Run Again"):
+                    # เคลียร์ตัวเลือกเพื่อให้เริ่มใหม่
+                    for key in ["run_action", "run_brand", "run_ip", "run_program"]:
+                        if key in st.session_state:
+                            del st.session_state[key]
+                    st.rerun()
+
+            
 
         except Exception as e:
             st.error(f"❌ Error occurred: {e}")
