@@ -226,7 +226,7 @@ if not dataset.empty:
             if action == "Backup Configuration (Raw)":
                 filename = f"{base_filename}_backup(raw).txt"
             elif action == "Backup Configuration (textfsm and ntc-template)":
-                filename = f"{base_filename}_backup(pas).txt"
+                filename = f"{base_filename}_backup(parse).txt"
             elif action == "Summary All":
                 filename = f"{base_filename}_summaryall.txt"
             elif action == "Save All":
