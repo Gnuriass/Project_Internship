@@ -12,7 +12,6 @@ import sys
 APP_DIR = os.path.dirname(__file__)
 
 if getattr(sys, 'frozen', False):
-    # PyInstaller creates a temp folder and stores the path in _MEIPASS
     APP_DIR = sys._MEIPASS
 
     
@@ -90,9 +89,7 @@ def reorder_dict(d, key_order):
 
 
 def parse_custom_template(command, output):
-    """
-    Custom parsing for commands not fully supported by NTC templates
-    """
+
     try:
         output_str = "\n".join(output) if isinstance(
             output, list) else str(output)
@@ -113,12 +110,9 @@ def parse_custom_template(command, output):
                 if process_section:
                     process_lines.append(line)
                 else:
-                    # Skip header lines in pool section
                     if "Total" in line and "Used" in line:
                         continue
                     pool_lines.append(line)
-
-            # Ensure template paths are correctly referenced using APP_DIR
             
             with open(TEMPLATE_PATH_POOL) as f:
                 fsm = textfsm.TextFSM(f)
@@ -170,15 +164,12 @@ def parse_custom_template(command, output):
         return results if results else output_str.splitlines()[:50]
 
     except Exception as e:
-        # พิมพ์ข้อผิดพลาดเพื่อให้ตรวจสอบ TextFSM ได้
         print(f"❌ TextFSM parse error for {command}: {e} (Path: {TEMPLATE_PATH_POOL})")
         return output_str.splitlines()[:50]
 
 
 def parse_with_ntc(brand, command, output):
-    """
-    Parses command output using NTC templates or custom parser.
-    """
+
     try:
         if isinstance(output, list):
             output = "\n".join(output)
@@ -196,19 +187,16 @@ def parse_with_ntc(brand, command, output):
 
         if isinstance(parsed, list):
             if command in ["show processes cpu", "show processes memory"]:
-                # ใช้แค่ 15 บรรทัดแรก
                 parsed = parsed[:15]
 
         return parsed if parsed else output
 
     except Exception:
-        # NTC template parse failed, return raw output
         return output if isinstance(output, str) else "\n".join(output)
 
 
 def get_switch_info(ip, brand, username, password):
-    """Connects and runs all commands, returning PARSED output."""
-    # ... (โค้ดการเชื่อมต่อและส่ง command เหมือนเดิม) ...
+
     device_types = {"Cisco": "cisco_ios",
                     "HPE": "hp_procurve", "H3C": "h3c_comware"}
     if brand not in device_types:
@@ -259,8 +247,7 @@ def get_switch_info(ip, brand, username, password):
 
 
 def get_all_raw_outputs(ip, brand, username, password):
-    """Connects and runs all commands for a brand, returning RAW TEXT output."""
-    # ... (โค้ดการเชื่อมต่อและส่ง command เหมือนเดิม) ...
+
     device_types = {"Cisco": "cisco_ios",
                     "HPE": "hp_procurve", "H3C": "h3c_comware"}
     if brand not in device_types:
@@ -320,7 +307,6 @@ def is_fiber_port(iface):
 
 
 def summarize_ports(brand, interface_output):
-    # ... (ฟังก์ชันเหมือนเดิม) ...
     summary = {
         "Fiber": {"total": 0, "up": 0, "down": 0},
         "UTP": {"total": 0, "up": 0, "down": 0},
@@ -363,7 +349,6 @@ def summarize_ports(brand, interface_output):
 
 
 def summarize_device_status(results, brand):
-    # ... (ฟังก์ชันเหมือนเดิม) ...
     summary = {
         "version": "", "bootloader": "", "uptime": "", "NTP_SERVER": "",
         "CPU Usage": "", "Memory Usage": "", "Temperature": "",
@@ -405,28 +390,23 @@ def summarize_device_status(results, brand):
                 r"ntp\s+server\s+(\d{1,3}(?:\.\d{1,3}){3})", config_output_str, re.I)
         summary["NTP_SERVER"] = ",".join(ntp_servers) if ntp_servers else ""
 
-        # --- โค้ดที่แก้ไขแล้ว ---
-        # show processes cpu
+
         cpu_cmd = "display cpu-usage" if brand in [
             "HPE", "H3C"] else "show processes cpu"
         cpu_output = results.get(cpu_cmd, "")
 
         cpu_val = ""
         if isinstance(cpu_output, list) and len(cpu_output) > 0:
-            # ตรวจสอบ key ที่เป็นไปได้หลายชื่อ
             cpu_info = cpu_output[0]
             cpu_val = cpu_info.get("cpu_5_sec") or cpu_info.get(
                 "five_sec_cpu") or cpu_info.get("cpu_usage_5_sec")
 
         if cpu_val:
             summary["CPU Usage"] = f"{cpu_val}%"
-        # หากยังหาไม่เจอในข้อมูลที่ Parse แล้ว ให้ลองหาจากข้อความดิบ (กรณี Parse ล้มเหลว)
         elif isinstance(cpu_output, str):
-            # ปรับปรุง regex ให้รองรับ H3C และ Cisco
             cpu_match = re.search(
                 r"five\s+seconds.*?(\d+)%|CPU Usage.*?(\d+)%", cpu_output, re.I)
             if cpu_match:
-                # group(1) สำหรับ Cisco, group(2) สำหรับ H3C
                 usage = cpu_match.group(1) or cpu_match.group(2)
                 summary["CPU Usage"] = f"{usage}%"
 
@@ -457,7 +437,6 @@ def summarize_device_status(results, brand):
 
 
 def save_selected_results_txt(all_results, save_root="reports"):
-    # ... (ฟังก์ชันเหมือนเดิม) ...
     if not all_results:
         print("\nNo results to save!")
         return
@@ -505,13 +484,11 @@ def save_selected_results_txt(all_results, save_root="reports"):
 
 
 def interactive_main():
-    # ... (ฟังก์ชันเหมือนเดิม) ...
-    # ⚠️ Warning: This function is for CLI mode only and will not be used by Streamlit.
     try:
         dataset = pd.read_excel("dataset.xlsx")
     except FileNotFoundError:
         print("❌ dataset.xlsx not found!")
-        return # หยุดถ้าหาไฟล์ไม่เจอในโหมด CLI
+        return
 
     all_results = []
     first_run = True
@@ -581,7 +558,6 @@ def interactive_main():
                 raw_results = get_all_raw_outputs(
                     ip, brand, username, password)
 
-                # --- CHANGE HERE: Truncate specific commands for raw output ---
                 for cmd, output in raw_results.items():
                     if "show processes cpu" in cmd or "show processes memory" in cmd:
                         truncated_output = "\n".join(output.splitlines()[:15])
