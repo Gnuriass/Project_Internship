@@ -39,7 +39,6 @@
 ## 📂 โครงสร้างของโปรเจค (Project Structure)
     ```text
     NetworkTool/
-    ├── .vscode/               # การตั้งค่าจำลองของ Environment
     ├── templates/             # โฟลเดอร์เก็บไฟล์ Custom TextFSM Template สำหรับ Parse ข้อมูล
     ├── app.py                 # ตัวจัดการหน้าเว็บหน้าบ้าน (Web Interface & UI Logic)
     ├── main.py                # ระบบประมวลผลหลังบ้าน (Backend Logic & SSH Connection)
