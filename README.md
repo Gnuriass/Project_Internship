@@ -1,5 +1,223 @@
 # Automatic Network Device Backup and Monitoring System (NetworkTool)
 
+NetworkTool is a web-based dashboard designed to automate the Network Preventive Maintenance process. The system replaces traditional manual operations with automated network device backup, monitoring, and reporting, helping improve efficiency, reduce human errors, and organize configuration data in a structured manner.
+
+---
+
+## 🌟 Key Features
+
+### Multi-Vendor Auto Backup
+
+* Automatically connect to and back up network device configurations from multiple vendors.
+* Currently supports:
+
+  * Cisco
+  * HPE
+  * H3C
+
+### Smart Configuration Parsing
+
+* Convert raw configuration data obtained from commands such as `show running-config` into structured and human-readable formats.
+* Supports JSON and key-value representations for easier analysis and documentation.
+
+### Device & Port Summary
+
+* Display essential device information, including:
+
+  * Operating system version
+  * Uptime
+  * Hardware information
+  * CPU and memory utilization
+* Summarize port usage statistics:
+
+  * Fiber ports (Up/Down)
+  * UTP ports (Up/Down)
+
+This feature simplifies the process of completing Network Equipment Check Sheets during preventive maintenance.
+
+### Executable Version
+
+* Package the application as a standalone executable file (`.exe`) using PyInstaller.
+* End users can run the application without installing Python.
+
+### Automated Report Generation
+
+* Generate and save maintenance reports automatically in text format (`.txt`).
+* Reports are named using the format:
+
+```text
+Brand_IP_Program.txt
+```
+
+* Includes timestamp information for traceability and auditing.
+
+---
+
+## 🏗️ System Architecture
+
+The system consists of four main programs that users can execute based on their requirements:
+
+### Program 1 – Backup Config Raw
+
+Back up raw configuration data directly from network devices.
+
+### Program 2 – Backup Config Parsed
+
+Back up configurations and convert them into structured data using a custom parsing engine.
+
+### Program 3 – Summary All
+
+Collect and summarize key device information, including hardware status, temperature, reload history, and port utilization.
+
+### Program 4 – Save All
+
+Execute all programs and save all collected information in a single operation.
+
+![System Architecture](./images/diagram.jpg)
+
+---
+
+## 🛠️ Technology Stack
+
+### Core Language & Framework
+
+* Python 3.8+
+* Streamlit
+
+### Libraries & Utilities
+
+* Netmiko
+
+  * SSH connection management and command execution on network devices
+* TextFSM & NTC Templates
+
+  * Parse unstructured CLI outputs into structured data
+  * Includes custom templates for vendor-specific commands
+* Pandas
+
+  * Data management and Excel integration
+* PyInstaller
+
+  * Generate standalone executable files
+
+---
+
+## 📂 Project Structure
+
+```text
+NetworkTool/
+├── templates/             # Custom TextFSM templates
+├── app.py                 # Streamlit UI and frontend logic
+├── main.py                # Backend processing and SSH connections
+├── run_app.py             # Application launcher
+├── dataset.xlsx           # Device inventory database
+├── requirements.txt       # Project dependencies
+└── NetworkTool.spec       # PyInstaller configuration
+```
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Gnuriass/NetworkTool.git
+cd NetworkTool
+```
+
+### 2. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Run the Application
+
+```bash
+streamlit run app.py
+```
+
+Open your browser and navigate to:
+
+```text
+http://localhost:8501
+```
+
+(or the port specified in the terminal output)
+
+---
+
+## 📸 Dashboard Screenshots
+
+### 1. Main Dashboard & Device Management
+
+The main dashboard displays all registered network devices and provides a sidebar interface for adding new devices to the inventory database.
+
+![Dashboard](./images/Dashboard.png)
+
+![Device Management](./images/device.png)
+
+### 2. Program Execution Interface
+
+Users can select:
+
+* Device vendor (Cisco, HPE, H3C)
+* Device IP address
+* Desired backup or monitoring program
+
+and execute operations directly from the dashboard.
+
+![Program Execution](./images/program.png)
+
+### 3. Configuration Backup Results
+
+#### Raw Configuration Output
+
+Displays raw configuration data retrieved directly from network devices.
+
+#### Parsed Configuration Output
+
+Displays structured JSON-like output generated through TextFSM parsing, making configurations easier to read and analyze.
+
+![Backup Output](./images/output.png)
+
+### 4. Device & Port Summary
+
+Provides a comprehensive overview of device health and network status, including:
+
+* OS version
+* System uptime
+* CPU utilization
+* Port statistics
+* Fiber port status
+* UTP port status
+
+![Summary 1](./images/summary1.png)
+
+![Summary 2](./images/summary2.png)
+
+---
+
+## 👥 Project Author
+
+**Sarochinee Bunyarit**
+
+* 4th-Year Undergraduate Student
+* Computer Engineering and Artificial Intelligence Program (CE)
+* Thai-Nichi Institute of Technology (TNI)
+
+---
+
+## 📚 Academic Context
+
+This project was developed as part of the **CPE-492 Cooperative Education Program**.
+
+The project was conducted during an internship placement and supported by professional Network Engineers at **Chun Bok Co., Ltd.**, focusing on practical preventive maintenance operations, network automation, and configuration management.
+
+
+
+------------------------------------------------------------------------------
+# Automatic Network Device Backup and Monitoring System (NetworkTool)
+
 ระบบสำรองข้อมูลและตรวจสอบอุปกรณ์เครือข่ายอัตโนมัติ พัฒนาขึ้นในรูปแบบ Web Dashboard เพื่อเปลี่ยนกระบวนการทำ Network Preventive Maintenance จากเดิมที่เป็นแบบ Manual ให้เป็นระบบอัตโนมัติ ช่วยเพิ่มความรวดเร็ว ลดความผิดพลาด และจัดการข้อมูลการตั้งค่าอย่างเป็นระบบ
 
 ---
