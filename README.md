@@ -69,7 +69,7 @@ cd NetworkTool
 
 ### 2. หน้าจอการเลือกโปรแกรมและรันคำสั่ง (Program Execution Window)
 [cite_start]ผู้ใช้สามารถเลือกแบรนด์อุปกรณ์ (เช่น Cisco, HPE, H3C) เลือกหมายเลข IP และเลือกโปรแกรมคำนวณ/สำรองข้อมูลที่ต้องการรันได้อย่างง่ายดาย [cite: 124, 181, 182, 185, 187, 188]
-![Program Run](./images/dashboard_run.png)
+![Program Run](./images/program.png)
 
 ### 3. ผลลัพธ์การสำรองข้อมูล (Backup Output Examples)
 * [cite_start]**แบบ Raw Configuration:** แสดงข้อมูลผลลัพธ์ข้อความดิบที่ดึงมาจากคำสั่ง `show running-config` [cite: 262, 263]
