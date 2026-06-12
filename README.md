@@ -19,6 +19,7 @@
 2. **Program 2 (Backup Config Parsed):** สำรองข้อมูลคอนฟิกพร้อมแปลงค่าให้อยู่ในโครงสร้าง Structured Data ด้วย Engine พิเศษ
 3. **Program 3 (Summary All):** ดึงข้อมูลสรุปภาพรวมของฮาร์ดแวร์ อุณหภูมิ ประวัติการรีโหลด และปริมาณพอร์ตที่ใช้งาน
 4. **Program 4 (Save All):** สั่งรันและบันทึกข้อมูลทุกหมวดหมู่พร้อมกันในครั้งเดียว
+   ![Main Dashboard](./images/diagram.jpg)
 
 ---
 
@@ -63,7 +64,8 @@ cd NetworkTool
 
 ### 1. หน้าแรกของ Dashboard และการจัดการอุปกรณ์ (Main Dashboard & Device Management)
 [cite_start]หน้าจอหลักสำหรับการเรียกดูรายการอุปกรณ์เครือข่ายทั้งหมดในระบบ (Device List) พร้อมแถบด้านข้าง (Sidebar) สำหรับการเพิ่มอุปกรณ์ใหม่เข้าสู่ฐานข้อมูลตาราง Excel [cite: 159, 169, 178, 230]
-![Main Dashboard](./images/dashboard_main.png)
+![Main Dashboard](./images/Dashboard.png)
+![Main Dashboard](./images/device.png)
 
 ### 2. หน้าจอการเลือกโปรแกรมและรันคำสั่ง (Program Execution Window)
 [cite_start]ผู้ใช้สามารถเลือกแบรนด์อุปกรณ์ (เช่น Cisco, HPE, H3C) เลือกหมายเลข IP และเลือกโปรแกรมคำนวณ/สำรองข้อมูลที่ต้องการรันได้อย่างง่ายดาย [cite: 124, 181, 182, 185, 187, 188]
@@ -72,11 +74,12 @@ cd NetworkTool
 ### 3. ผลลัพธ์การสำรองข้อมูล (Backup Output Examples)
 * [cite_start]**แบบ Raw Configuration:** แสดงข้อมูลผลลัพธ์ข้อความดิบที่ดึงมาจากคำสั่ง `show running-config` [cite: 262, 263]
 * [cite_start]**แบบ Parsed Configuration:** แสดงข้อมูลที่ผ่านการแปลงด้วย TextFSM ออกมาเป็นรูปแบบ Structured JSON ทำให้อ่านง่ายและเป็นระบบ [cite: 157, 274, 275]
-![Backup Result](./images/dashboard_output.png)
+![Summary Output](./images/output.png)
 
 ### 4. หน้าจอสรุปสถานะอุปกรณ์และพอร์ต (Device & Port Summary)
 [cite_start]ระบบจะทำการแจกแจงข้อมูลสำคัญ เช่น เวอร์ชันระบบปฏิบัติการ, ระยะเวลาที่ระบบเปิดใช้งาน (Uptime), ปริมาณการใช้งาน CPU รวมถึงการแยกนับจำนวนพอร์ต Fiber และ UTP ออกมาเป็นสถานะ Up/Down อย่างชัดเจน [cite: 293, 295, 297, 319, 320, 321]
-![Summary Output](./images/dashboard_summary.png)
+![Summary Output](./images/summary1.png)
+![Summary Output](./images/summary2.png)
 
 ## 👥 ผู้จัดทำโครงการ (Project Members)
   - นางสาวสโรชินี บุญฤทธิ์ (Sarochinee Bunyarit)
