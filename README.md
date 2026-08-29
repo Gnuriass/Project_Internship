@@ -301,5 +301,6 @@ cd NetworkTool
 * Computer Engineering and Artificial Intelligence Program (CE)
 * Thai-Nichi Institute of Technology (TNI)
 
-* โครงงานนี้เป็นส่วนหนึ่งของวิชา CPE-492 Co-operative Education (สหกิจศึกษา) โดยได้รับการสนับสนุนด้านเทคนิคและการฝึกฝนการทำ Preventive Maintenance ภายใต้การดูแลของทีม Network Engineer บริษัท ชุน บ็อก จำกัด
-* This project is part of the CPE-492 Co-operative Education course, with technical support and training in Preventive Maintenance under the supervision of the Network Engineer team at Chunbok Co., Ltd.
+ โครงงานนี้เป็นส่วนหนึ่งของวิชา CPE-492 Co-operative Education (สหกิจศึกษา) โดยได้รับการสนับสนุนด้านเทคนิคและการฝึกฝนการทำ Preventive Maintenance ภายใต้การดูแลของทีม Network Engineer บริษัท ชุน บ็อก จำกัด
+ 
+ This project is part of the CPE-492 Co-operative Education course, with technical support and training in Preventive Maintenance under the supervision of the Network Engineer team at Chunbok Co., Ltd.
