@@ -195,15 +195,7 @@ Provides a comprehensive overview of device health and network status, including
 
 ![Summary 2](./images/summary2.png)
 
----
 
-## 👥 Project Author
-
-**Sarochinee Bunyarit**
-
-* 4th-Year Undergraduate Student
-* Computer Engineering and Artificial Intelligence Program (CE)
-* Thai-Nichi Institute of Technology (TNI)
 
 ---
 
@@ -299,9 +291,15 @@ cd NetworkTool
 ![Summary Output](./images/summary1.png)
 ![Summary Output](./images/summary2.png)
 
-## 👥 ผู้จัดทำโครงการ (Project Members)
-  - นางสาวสโรชินี บุญฤทธิ์ (Sarochinee Bunyarit)
-  - นักศึกษาชั้นปีที่ 4 คณะวิศวกรรมศาสตร์ สาขาคอมพิวเตอร์และปัญญาประดิษฐ์ (CE)
-  - สถาบันเทคโนโลยีไทย-ญี่ปุ่น (TNI)
+---
+
+## 👥 Project Author
+
+**Sarochinee Bunyarit**
+
+* 4th-Year Undergraduate Student
+* Computer Engineering and Artificial Intelligence Program (CE)
+* Thai-Nichi Institute of Technology (TNI)
 
 โครงงานนี้เป็นส่วนหนึ่งของวิชา CPE-492 Co-operative Education (สหกิจศึกษา) โดยได้รับการสนับสนุนด้านเทคนิคและการฝึกฝนการทำ Preventive Maintenance ภายใต้การดูแลของทีม Network Engineer บริษัท ชุน บ็อก จำกัด
+This project is part of the CPE-492 Co-operative Education course, with technical support and training in Preventive Maintenance under the supervision of the Network Engineer team at Chunbok Co., Ltd.
